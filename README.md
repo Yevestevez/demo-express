@@ -1,2 +1,3 @@
-# demo-express
-Demo de Express del Curso DATW 2026
+# demo-node-backend
+
+Demo de backend con Node del Curso DATW 2026
