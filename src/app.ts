@@ -4,6 +4,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 import { customHeaders, customLogger } from './middleware/customs.ts';
 import { errorHandler } from './middleware/error-handler.ts';
+import notesRouter from './router/notes-router.ts';
 // import { HttpError } from './errors/http-error.ts';
 
 const log = debug('express-server:app');
@@ -30,6 +31,8 @@ app.get('/api', (_req, res) => {
     res.send('API Rest');
     return;
 });
+
+app.use('/api/notes', notesRouter);
 
 app.post('/', (req, res) => {
     log(req.body);

@@ -1,9 +1,10 @@
 import { createServer } from 'node:http';
 import debug from 'debug';
 import { app } from './app.ts';
+import { env } from './env.ts';
 
 const log = debug('express-server:index');
-const port = process.env.PORT || 3040;
+const port = env.PORT || 3040;
 
 const server = createServer(app);
 log('Server created');
@@ -24,7 +25,7 @@ const listenManager = () => {
                 ? `http://localhost:${addr?.port}`
                 : `${addr.address}:${addr?.port}`;
     }
-    if (process.env.NODE_ENV !== 'dev') {
+    if (env.NODE_ENV !== 'dev') {
         console.log(`Server listening on ${bind}`);
     } else {
         log(`Servidor escuchando en ${bind}`);

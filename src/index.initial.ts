@@ -1,11 +1,12 @@
 import express from 'express';
 import debug from 'debug';
+import { env } from './env.ts';
 
 const log = debug('express-server:index');
 
 const app = express();
 log('Express app created');
-const port = process.env.PORT || 3040;
+const port = env.PORT || 3040;
 
 app.get('/', (_req, res) => {
     res.send('Hello World!');
