@@ -1,13 +1,19 @@
 import { Router } from 'express';
 import debug from 'debug';
+import { NotesRepoJson } from '../services/note-repo-json.ts';
+import { resolve, join } from 'node:path';
 
 const log = debug('express-server:router:notes');
 export const router = Router();
 
+const __dirname = resolve('.');
+const file = join(__dirname, 'src', 'data', 'db.json');
+const repo = new NotesRepoJson(file);
+
 log('Notes router created');
 
-router.get('/', (_req, res) => {
-    const notes = [{ id: 1 }, { id: 2 }];
+router.get('/', async (_req, res) => {
+    const notes = await repo.read();
     res.json(notes);
     return;
 });
@@ -19,10 +25,10 @@ router.get('/search', (req, res) => {
     return;
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
     const { id } = req.params;
-    const notes = [{ id: 1 }, { id: 2 }];
-    res.json(notes.find((note) => note.id === Number(id)));
+    const note = await repo.readById(id);
+    res.json(note);
     return;
 });
 

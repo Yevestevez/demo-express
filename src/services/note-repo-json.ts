@@ -1,5 +1,5 @@
 import { readFile, writeFile } from 'node:fs/promises';
-import type { Note } from '../types/note.ts';
+import type { Note } from '../schemas/note.ts';
 import type { Repository } from '../types/repo.ts';
 
 export class NotesRepoJson implements Repository<Note> {
@@ -39,12 +39,9 @@ export class NotesRepoJson implements Repository<Note> {
 
     async create(noteData: Omit<Note, 'id'>): Promise<Note> {
         await this.load();
-        // Crear una nota
         const note: Note = { ...noteData, id: crypto.randomUUID() };
         this.#notes.push(note);
-        // Añadirla al fichero
         await this.save();
-        // Devolverla
         return note;
     }
 
@@ -54,9 +51,7 @@ export class NotesRepoJson implements Repository<Note> {
     ): Promise<Note> {
         const note = await this.readById(id);
         Object.assign(note, data);
-        // Añadirla al fichero
         await this.save();
-        // Devolverla
         return note;
     }
 
@@ -65,11 +60,7 @@ export class NotesRepoJson implements Repository<Note> {
         const index = this.#notes.findIndex((n) => n.id === id);
         if (index === -1) throw new Error(`Note with id ${id} not found`);
         const deletedNote = this.#notes.splice(index, 1)[0] as Note;
-        // Añadirla al fichero
         await this.save();
-        // Devolverla
         return deletedNote;
     }
 }
-
-new NotesRepoJson('data.json', 'eduNotes');
