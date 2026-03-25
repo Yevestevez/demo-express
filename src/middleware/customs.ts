@@ -11,3 +11,11 @@ export const customLogger = () => {
         return;
     };
 };
+
+export const customHeaders = (brand: string) => {
+    return (_req: Request, res: Response, next: NextFunction) => {
+        res.setHeader('X-Owner', brand);
+        next();
+        return;
+    };
+};
